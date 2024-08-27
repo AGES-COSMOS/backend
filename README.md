@@ -121,7 +121,7 @@ Antes de clonar o repositório, certifique-se de ter o seguinte instalado em sua
    yarn start:dev
    ```
 
-   O servidor será iniciado em `http://localhost:3000`.
+   O servidor será iniciado em `http://localhost:3001`.
 
 ## Formatação e Linting de Código
 
@@ -154,6 +154,6 @@ O Husky está configurado para garantir a qualidade do código antes dos commits
 A documentação da API é gerada automaticamente com o Swagger e está disponível em:
 
 ```
-http://localhost:3000/api
+http://localhost:3001/api
 ```
 
