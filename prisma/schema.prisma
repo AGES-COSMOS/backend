@@ -13,8 +13,154 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+//MODELS 
 model AboutUs {
   id        Int      @id @default(autoincrement())
   content   String
   updatedAt DateTime @updatedAt
 }
+
+model Institution {
+  id        Int     @id @default(autoincrement())
+  name      String
+  cnpj      String  @db.VarChar(14)
+  latitude  Decimal @db.Decimal(9,6)
+  longitude Decimal @db.Decimal(9,6)
+
+  Event Event[]
+  User User[]
+  Project Project[]
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String?
+  phone     String? @db.Char(11)
+  cpfcnpj   String?  @db.Char(14)
+  adress    String?
+  photoURL  String?
+  registration_number   String?  @db.VarChar(50)
+  institution_id  Int
+  role_id   Int
+  institution   Institution @relation(fields: [institution_id], references: [id])
+  role      Role  @relation(fields: [role_id], references: [id])
+
+  Project Project[]
+}
+
+model Role {
+  id        Int     @id @default(autoincrement())
+  title     String  
+
+  User User[]
+}
+
+model Event{
+  id        Int      @id @default(autoincrement())
+  title     String   @db.VarChar(650)
+  imageURL  String?  @db.VarChar(255)
+  date      DateTime
+  hour      DateTime @db.Time
+  category  String?   @db.VarChar(30)
+  IsPerson  Boolean
+  address   String   @db.VarChar(255)
+  institution_id  Int 
+  institution Institution @relation(fields: [institution_id], references: [id])
+  project_id  Int
+  project    Project  @relation(fields: [project_id], references: [id])
+
+  EventCategory EventCategory[]
+  EventKeyword EventKeyword[]
+}
+
+model Project {
+  id      Int       @id @default(autoincrement())
+  name    String
+  history String
+  purpose String
+  isNew   Boolean
+  contact String?    @db.VarChar(50)
+  start_date  DateTime @db.Date
+  end_date  DateTime?  @db.Date
+  status  String    @db.VarChar(30)
+  teacher_id   Int
+  institution_id   Int
+  course_id   Int
+  institution Institution @relation(fields: [institution_id], references: [id])
+  teacher User @relation(fields: [teacher_id], references: [id])
+  course Course @relation(fields: [course_id], references: [id])
+
+  Event Event[]
+
+  ProjectCategory ProjectCategory[]
+  ProjectKeyword ProjectKeyword[]
+}
+
+model Category {
+  id Int @id @default(autoincrement())
+  name String
+  type Int //event - 0, project - 1, both - 2
+
+  ProjectCategory ProjectCategory[]
+  CourseCategory CourseCategory[]
+  EventCategory EventCategory[]
+}
+
+model Course {
+  id Int @id @default(autoincrement())
+  name String
+
+  Project Project[]
+  CourseCategory CourseCategory[]
+}
+
+model Keyword {
+  id Int  @id @default(autoincrement())
+  word String
+
+  ProjectKeyword ProjectKeyword[]
+  EventKeyword EventKeyword[]
+}
+
+//Many-to-many relations
+model ProjectCategory {
+  project_id Int
+  category_id Int
+  project Project @relation(fields: [project_id], references: [id])
+  categorty Category @relation(fields: [category_id], references: [id])
+  @@id([project_id, category_id])
+}
+
+model CourseCategory {
+  course_id Int
+  category_id Int
+  categorty Category @relation(fields: [category_id], references: [id])
+  course Course @relation(fields: [course_id], references: [id])
+  @@id([course_id, category_id])
+}
+
+model EventCategory {
+  event_id Int 
+  category_id Int
+  event Event @relation(fields: [event_id], references: [id])
+  categorty Category @relation(fields: [category_id], references: [id])
+  @@id([event_id, category_id])
+}
+
+model ProjectKeyword {
+  project_id Int
+  keyword_id Int
+  project Project @relation(fields: [project_id], references: [id])
+  keyword Keyword @relation(fields: [keyword_id], references: [id])
+  @@id([project_id, keyword_id])
+}
+
+model EventKeyword {
+  event_id Int
+  keyword_id Int
+  event Event @relation(fields: [event_id], references: [id])
+  keyword Keyword @relation(fields: [keyword_id], references: [id])
+  @@id([event_id, keyword_id])
+}
+
