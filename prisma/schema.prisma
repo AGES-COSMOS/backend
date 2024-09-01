@@ -249,18 +249,4 @@ model UsersSocialNetwork {
   @@id([user_id, social_network_id])
 }
 
-model Event{
-  id        Int      @id @default(autoincrement())
-  title     String   @db.VarChar(650)
-  imageURL  String?  @db.VarChar(255)
-  date      DateTime
-  hour      DateTime @db.Time
-  category  String   @db.VarChar(30)
-  IsPerson  Boolean
-  address   String   @db.VarChar(255)
-  institution_id  Int 
-  institution Institution @relation(fields: [institution_id], references: [id])
-  project_id  Int
-  project    Project  @relation(fields: [project_id], references: [id])
-}
 
