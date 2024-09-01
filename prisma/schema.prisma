@@ -4,6 +4,9 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
+
+// npx prisma generate
+// npx prisma migrate dev
 generator client {
   provider = "prisma-client-js"
 }
@@ -245,3 +248,19 @@ model UsersSocialNetwork {
   updatedBy String 
   @@id([user_id, social_network_id])
 }
+
+model Event{
+  id        Int      @id @default(autoincrement())
+  title     String   @db.VarChar(650)
+  imageURL  String?  @db.VarChar(255)
+  date      DateTime
+  hour      DateTime @db.Time
+  category  String   @db.VarChar(30)
+  IsPerson  Boolean
+  address   String   @db.VarChar(255)
+  institution_id  Int 
+  institution Institution @relation(fields: [institution_id], references: [id])
+  project_id  Int
+  project    Project  @relation(fields: [project_id], references: [id])
+}
+
