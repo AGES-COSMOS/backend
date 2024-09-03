@@ -44,7 +44,8 @@ model Institution {
 model User {
   id        Int      @id @default(autoincrement())
   name      String
-  email     String?
+  email     String  @db.VarChar(255)
+  password  String  @db.VarChar(255)
   phone     String? @db.Char(11)
   cpfcnpj   String?  @db.Char(14)
   photoURL  String?
