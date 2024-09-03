@@ -6,8 +6,6 @@ import { PrismaService } from './prisma.service';
 import { PrismaModule } from './prisma.module';
 import { GeneralParametersController } from './general-parameters/general-parameters.controller';
 import { FeedHighlightsModule } from './feed-highlights/feed-highlights.module';
-import { FeedHighlightsController } from './feed-highlights/feed-highlights.controller';
-import { FeedHighlightsService } from './feed-highlights/feed-highlights.service';
 
 @Module({
   imports: [AboutUsModule, PrismaModule, FeedHighlightsModule],
