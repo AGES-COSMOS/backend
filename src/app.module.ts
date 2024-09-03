@@ -5,10 +5,12 @@ import { AboutUsModule } from './general-parameters/general-parameters.module';
 import { PrismaService } from './prisma.service';
 import { PrismaModule } from './prisma.module';
 import { GeneralParametersController } from './general-parameters/general-parameters.controller';
+import { ProjectController } from './projects/projects.controller';
+import { ProjectModule } from './projects/projects.module';
 
 @Module({
-  imports: [AboutUsModule, PrismaModule],
-  controllers: [AppController, GeneralParametersController],
+  imports: [AboutUsModule, PrismaModule, ProjectModule],
+  controllers: [AppController, GeneralParametersController, ProjectController],
   providers: [AppService, PrismaService],
 })
 export class AppModule {}
