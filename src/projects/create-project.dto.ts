@@ -7,8 +7,6 @@ import {
 } from 'class-validator';
 
 export class CreateProjectDto {
-  @IsInt()
-  @IsNotEmpty()
   id: number;
 
   @IsString()
