@@ -1,11 +1,11 @@
+// src/about-us/about-us.module.ts
 import { Module } from '@nestjs/common';
-import { AboutUsController } from './about-us.controller';
 import { AboutUsService } from './about-us.service';
-import { PrismaModule } from '../prisma.module';
+import { AboutUsController } from './about-us.controller';
+import { PrismaService } from './prisma.service';
 
 @Module({
-  providers: [AboutUsService, AboutUsController],
-  imports: [PrismaModule],
-  exports: [AboutUsService],
+  controllers: [AboutUsController],
+  providers: [AboutUsService, PrismaService],
 })
 export class AboutUsModule {}

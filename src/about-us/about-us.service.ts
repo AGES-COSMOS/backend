@@ -1,25 +1,34 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma.service';
+import { Injectable, ForbiddenException } from '@nestjs/common';
+import { PrismaService } from './prisma.service';
 
 @Injectable()
 export class AboutUsService {
   constructor(private prisma: PrismaService) {}
 
   async getAboutUs() {
-    return this.prisma.aboutUs.findUnique({ where: { id: 1 } });
+    return this.prisma.generalParameters.findFirst();
   }
 
-  async updateAboutUs(content: string) {
-    const existingRecord = await this.prisma.aboutUs.findFirst();
-    if (existingRecord) {
-      return this.prisma.aboutUs.update({
-        where: { id: existingRecord.id },
-        data: { content },
-      });
-    } else {
-      return this.prisma.aboutUs.create({
-        data: { content },
-      });
+  async updateAboutUs(content: string, instagramURL: string, youtubeURL: string, linkedinURL: string, userId: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: parseInt(userId) },
+      include: { role: true },
+    });
+
+    if (user.role.title !== 'admin') {
+      throw new ForbiddenException('Only admins can update this content');
     }
+
+    return this.prisma.generalParameters.update({
+      where: { id: 1 },  // Assumindo que só há um registro de GeneralParameters
+      data: {
+        content,
+        instagramURL,
+        youtubeURL,
+        linkedinURL,
+        updatedBy: user.name,
+      },
+    });
   }
 }
+
