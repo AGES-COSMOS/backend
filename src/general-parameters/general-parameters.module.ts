@@ -8,4 +8,4 @@ import { PrismaModule } from '../prisma.module';
   imports: [PrismaModule],
   exports: [GeneralParametersService],
 })
-export class AboutUsModule {}
+export class GeneralParametersModule {}
