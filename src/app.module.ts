@@ -5,9 +5,10 @@ import { AboutUsModule } from './general-parameters/general-parameters.module';
 import { PrismaService } from './prisma.service';
 import { PrismaModule } from './prisma.module';
 import { GeneralParametersController } from './general-parameters/general-parameters.controller';
+import { FeedHighlightsModule } from './feed-highlights/feed-highlights.module';
 
 @Module({
-  imports: [AboutUsModule, PrismaModule],
+  imports: [AboutUsModule, PrismaModule, FeedHighlightsModule],
   controllers: [AppController, GeneralParametersController],
   providers: [AppService, PrismaService],
 })
