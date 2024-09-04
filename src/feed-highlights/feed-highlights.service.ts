@@ -4,15 +4,21 @@ import { PrismaService } from '../prisma.service';
 @Injectable()
 export class FeedHighlightsService {
   constructor(private prisma: PrismaService) {}
-  async getFeedHighlights() {
-    const date = new Date(); // Now
+  async getFeedHighlights(page: number, size: number) {
+    const date = new Date();
     date.setDate(date.getDate() - 7);
+
+    const skip = (page - 1) * size;
+    const take = size;
+
     const events = await this.prisma.event.findMany({
       where: {
         updatedAt: {
           gte: date,
         },
       },
+      skip,
+      take,
     });
 
     const projects = await this.prisma.project.findMany({
@@ -21,7 +27,10 @@ export class FeedHighlightsService {
           gte: date,
         },
       },
+      skip,
+      take,
     });
+
     return { events, projects };
   }
 }
