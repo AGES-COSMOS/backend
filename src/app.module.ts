@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AboutUsModule } from './about-us/about-us.module';
+import { AboutUsModule } from './general-parameters/general-parameters.module';
 import { PrismaService } from './prisma.service';
 import { PrismaModule } from './prisma.module';
-import { AboutUsController } from './about-us/about-us.controller';
+import { GeneralParametersController } from './general-parameters/general-parameters.controller';
 
 @Module({
   imports: [AboutUsModule, PrismaModule],
-  controllers: [AppController, AboutUsController],
+  controllers: [AppController, GeneralParametersController],
   providers: [AppService, PrismaService],
 })
 export class AppModule {}
