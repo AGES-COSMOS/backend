@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: cosmos-db
+    ports:
+      - 5432:5432
+    networks:
+      - cosmos
+    environment:
+      - POSTGRES_USER=cosmos
+      - POSTGRES_PASSWORD=123456
+      - POSTGRES_DB=cosmos
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+  backend:
+    build: .
+    container_name: cosmos-backend
+    volumes:
+      - .:/app
+    ports:
+      - 3001:3001
+    networks:
+      - cosmos
+    environment:
+      DATABASE_URL: postgresql://cosmos:123456@postgres:5432/cosmos
+    depends_on:
+      - postgres
+    links:
+      - postgres
+    command: >
+      sh -c "npx prisma migrate dev && npm run start"
+
+volumes:
+  postgres:
+
+networks:
+  cosmos:

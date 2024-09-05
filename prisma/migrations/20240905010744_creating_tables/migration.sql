@@ -1,12 +1,3 @@
-/*
-  Warnings:
-
-  - You are about to drop the `AboutUs` table. If the table is not empty, all the data it contains will be lost.
-
-*/
--- DropTable
-DROP TABLE "AboutUs";
-
 -- CreateTable
 CREATE TABLE "GeneralParameters" (
     "id" SERIAL NOT NULL,
@@ -37,7 +28,8 @@ CREATE TABLE "Institution" (
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "email" TEXT,
+    "email" VARCHAR(255) NOT NULL,
+    "password" VARCHAR(255) NOT NULL,
     "phone" CHAR(11),
     "cpfcnpj" CHAR(14),
     "photoURL" TEXT,
