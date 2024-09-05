@@ -4,7 +4,30 @@ import { faker } from '@faker-js/faker';
 const prisma = new PrismaClient();
 
 async function main() {
-  // Seeding General Parameters
+    // Delete from many-to-many relationships first
+  await prisma.postLikes.deleteMany({});
+  await prisma.postComments.deleteMany({});
+  await prisma.usersSocialNetwork.deleteMany({});
+  await prisma.projectKeyword.deleteMany({});
+  await prisma.eventKeyword.deleteMany({});
+  await prisma.projectCategory.deleteMany({});
+  await prisma.eventCategory.deleteMany({});
+
+  // Delete from child tables
+  await prisma.address.deleteMany({});
+  await prisma.keyword.deleteMany({});
+  await prisma.category.deleteMany({});
+  await prisma.socialNetwork.deleteMany({});
+  await prisma.post.deleteMany({});
+  await prisma.project.deleteMany({});
+  await prisma.event.deleteMany({});
+
+  // Delete from user-related tables
+  await prisma.user.deleteMany({});
+  await prisma.role.deleteMany({});
+  await prisma.institution.deleteMany({});
+  await prisma.generalParameters.deleteMany({});
+
   await prisma.generalParameters.create({
     data: {
       content: faker.lorem.sentence(),
@@ -15,7 +38,6 @@ async function main() {
     },
   });
 
-  // Seeding Institution
   const institution = await prisma.institution.create({
     data: {
       name: faker.company.name(),
@@ -26,7 +48,6 @@ async function main() {
     },
   });
 
-  // Seeding Roles
   const role = await prisma.role.create({
     data: {
       title: 'Admin',
@@ -48,7 +69,6 @@ async function main() {
     },
   });
 
-  // Seeding Address
   await prisma.address.create({
     data: {
       street: faker.location.street(),
@@ -63,7 +83,6 @@ async function main() {
     },
   });
 
-  // Seeding Event
   const event = await prisma.event.create({
     data: {
       title: faker.lorem.words(3),
@@ -79,13 +98,12 @@ async function main() {
     },
   });
 
-  // Seeding Project
   const project = await prisma.project.create({
     data: {
       name: faker.company.name(),
       history: faker.lorem.paragraph(),
       purpose: faker.lorem.sentence(),
-      contact: `+55 ${faker.string.numeric(2)} ${faker.string.numeric(5)}-${faker.string.numeric(4)}`, // Manually format as Brazilian number
+      contact: `+55 ${faker.string.numeric(2)} ${faker.string.numeric(5)}-${faker.string.numeric(4)}`, 
       start_date: faker.date.past(),
       status: 'ongoing',
       teacher_id: user.id,
@@ -94,16 +112,14 @@ async function main() {
     },
   });
 
-  // Seeding Categories
   const category = await prisma.category.create({
     data: {
       name: faker.commerce.department(),
-      type: 1,  // Assuming 1 for project-related category
+      type: 1,  
       updatedBy: faker.person.firstName(),
     },
   });
 
-  // Seeding Keywords
   const keyword = await prisma.keyword.create({
     data: {
       word: faker.lorem.word(),
@@ -111,7 +127,6 @@ async function main() {
     },
   });
 
-  // Seeding EventCategory (Many-to-Many relation)
   await prisma.eventCategory.create({
     data: {
       event_id: event.id,
@@ -119,7 +134,6 @@ async function main() {
     },
   });
 
-  // Seeding ProjectCategory (Many-to-Many relation)
   await prisma.projectCategory.create({
     data: {
       project_id: project.id,
@@ -128,7 +142,6 @@ async function main() {
     },
   });
 
-  // Seeding EventKeyword (Many-to-Many relation)
   await prisma.eventKeyword.create({
     data: {
       event_id: event.id,
@@ -137,7 +150,6 @@ async function main() {
     },
   });
 
-  // Seeding ProjectKeyword (Many-to-Many relation)
   await prisma.projectKeyword.create({
     data: {
       project_id: project.id,
@@ -146,7 +158,6 @@ async function main() {
     },
   });
 
-  // Seeding SocialNetwork
   const socialNetwork = await prisma.socialNetwork.create({
     data: {
       name: faker.company.name(),
@@ -155,7 +166,6 @@ async function main() {
     },
   });
 
-  // Seeding UsersSocialNetwork (Many-to-Many relation)
   await prisma.usersSocialNetwork.create({
     data: {
       user_id: user.id,
@@ -165,7 +175,6 @@ async function main() {
     },
   });
 
-  // Seeding Posts
   const post = await prisma.post.create({
     data: {
       content: faker.lorem.paragraph(),
@@ -174,7 +183,6 @@ async function main() {
     },
   });
 
-  // Seeding PostLikes
   await prisma.postLikes.create({
     data: {
       post_id: post.id,
@@ -183,7 +191,6 @@ async function main() {
     },
   });
 
-  // Seeding PostComments
   await prisma.postComments.create({
     data: {
       content: faker.lorem.sentence(),
