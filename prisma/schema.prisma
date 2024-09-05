@@ -46,7 +46,7 @@ model User {
   name      String
   email     String  @db.VarChar(255)
   password  String  @db.VarChar(255)
-  phone     String? @db.Char(11)
+  phone     String? @db.Char(20)
   cpfcnpj   String?  @db.Char(14)
   photoURL  String?
   blocked   Boolean
