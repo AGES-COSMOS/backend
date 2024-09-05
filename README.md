@@ -1,4 +1,3 @@
-
 # Cosmos - REST API (backend)
 
 <a href="https://docs.nestjs.com/first-steps">
@@ -26,6 +25,7 @@ Este é o backend do projeto Cosmos, construído com Node.js, TypeScript e o fra
 - [Configuração do Ambiente](#configuração-do-ambiente)
 - [Configuração do Banco de Dados](#configuração-do-banco-de-dados)
 - [Executando a Aplicação](#executando-a-aplicação)
+- [Executando a Aplicação com o Docker (Backend e Banco de Dados)](#executando-a-aplicação-com-o-docker-backend-e-banco-de-dados)
 - [Formatação e Linting de Código](#formatação-e-linting-de-código)
 - [Hooks do Git](#hooks-do-git)
 - [Documentação da API](#documentação-da-api)
@@ -122,6 +122,38 @@ Antes de clonar o repositório, certifique-se de ter o seguinte instalado em sua
    ```
 
    O servidor será iniciado em `http://localhost:3001`.
+
+## Executando a Aplicação com o Docker (Backend e Banco de Dados)
+
+1. Garanta que você está com o docker em execução e digite o seguinte comando no terminal do VSCode:
+
+   ```bash
+   docker-compose -f docker-compose.dev.yml up
+   ```
+
+   Esse comando irá iniciar a execução do backend e do banco de dados.
+
+2. Para parar a execução do docker, neste mesmo terminal aperte Ctrl + C e em seguida digite o seguinte comando:
+
+   ```bash
+   docker-compose -f docker-compose.dev.yml down -v
+   ```
+
+   Esse comando para e remove os containers, redes e volumes associados ao arquivo docker-compose.dev.yml.
+
+3. Caso você queira acessar o banco de dados, abra um terminal bash no VSCode e digite o seguinte comando:
+
+   ```bash
+   docker exec -it cosmos-db psql -U cosmos -d cosmos
+   ```   
+
+   Neste terminal você pode usar a sintaxe SQL padrão, por exemplo:
+
+   ```bash
+   SELECT * FROM "User";
+   ``` 
+
+   Após esses comandos, você pode acessar o servidor rodando em `http://localhost:3001`.
 
 ## Formatação e Linting de Código
 
