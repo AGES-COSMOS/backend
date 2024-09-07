@@ -1,6 +1,7 @@
 import { Controller, Get, Put, Body, UseGuards, Request } from '@nestjs/common';
 import { AboutUsService } from './about-us.service';
-import { JwtAuthGuard } from './jwt-auth.guard';
+import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import { UpdateAboutUsDto } from './update-about-us.dto';
 
 @Controller('about-us')
 export class AboutUsController {
@@ -11,15 +12,18 @@ export class AboutUsController {
     return this.aboutUsService.getAboutUs();
   }
 
-  @UseGuards(JwtAuthGuard)  // Somente usuários autenticados
+  @UseGuards(JwtAuthGuard)
   @Put()
   async updateAboutUs(
-    @Body('content') content: string,
-    @Body('instagramURL') instagramURL: string,
-    @Body('youtubeURL') youtubeURL: string,
-    @Body('linkedinURL') linkedinURL: string,
-    @Request() req: any,  // JWT armazenado no Request
+    @Body() updateAboutUsDto: UpdateAboutUsDto,
+    @Request() req: any,
   ) {
-    return this.aboutUsService.updateAboutUs(content, instagramURL, youtubeURL, linkedinURL, req.user.userId);
+    return this.aboutUsService.updateAboutUs(
+      updateAboutUsDto.content,
+      updateAboutUsDto.instagramURL,
+      updateAboutUsDto.youtubeURL,
+      updateAboutUsDto.linkedinURL,
+      req.user.userId,
+    );
   }
 }
