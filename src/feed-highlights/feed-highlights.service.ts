@@ -9,7 +9,7 @@ export class FeedHighlightsService {
     date.setDate(date.getDate() - 7);
 
     const skip = (page - 1) * size;
-    const take = size;
+    const take = size > 0 ? size : 10;
 
     const events = await this.prisma.event.findMany({
       where: {
