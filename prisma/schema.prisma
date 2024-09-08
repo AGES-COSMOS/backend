@@ -4,6 +4,9 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
+
+// npx prisma generate
+// npx prisma migrate dev
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,8 +16,236 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model AboutUs {
+//MODELS 
+model GeneralParameters {
   id        Int      @id @default(autoincrement())
   content   String
+  instagramURL String
+  youtubeURL String
+  linkedinURL String
   updatedAt DateTime @updatedAt
+  updatedBy String
+}
+
+model Institution {
+  id        Int     @id @default(autoincrement())
+  name      String
+  cnpj      String  @db.VarChar(14)
+  latitude  Decimal @db.Decimal(9,6)
+  longitude Decimal @db.Decimal(9,6)
+  updatedAt DateTime @updatedAt
+  updatedBy String
+
+  Event Event[]
+  User User[]
+  Project Project[]
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String  @db.VarChar(255)
+  password  String  @db.VarChar(255)
+  phone     String? @db.Char(20)
+  cpfcnpj   String?  @db.Char(14)
+  photoURL  String?
+  blocked   Boolean
+  registration_number   String?  @db.VarChar(50)
+  institution_id  Int
+  role_id   Int
+  institution   Institution @relation(fields: [institution_id], references: [id])
+  role      Role  @relation(fields: [role_id], references: [id])
+  adress Address?
+
+  Project Project[]
+  Post Post[]
+  PostLikes PostLikes[]
+  PostComments PostComments[]
+  UsersSocialNetwork UsersSocialNetwork[]
+}
+
+model Address {
+  id Int @id @default(autoincrement())
+  street String @db.VarChar(100)
+  number String @db.VarChar(50)
+  complement String? @db.VarChar(100)
+  neighborhood String @db.VarChar(50)
+  city String @db.VarChar(30)
+  state String @db.VarChar(30)
+  contry String @db.VarChar(30)
+  postalCode String @db.VarChar(8)
+  user   User @relation(fields: [user_id], references: [id])
+  user_id Int  @unique
+}
+
+model Role {
+  id        Int     @id @default(autoincrement())
+  title     String
+  updatedAt DateTime @updatedAt
+  updatedBy String  
+
+  User User[]
+}
+
+model Event{
+  id        Int      @id @default(autoincrement())
+  title     String   
+  imageURL  String?  
+  description String
+  date      DateTime @db.Date
+  hour      DateTime @db.Time
+  IsOnline  Boolean
+  address   String   
+  latitude  Decimal @db.Decimal(9, 6)
+  longitude Decimal @db.Decimal(9, 6)
+  institution_id  Int 
+  institution Institution @relation(fields: [institution_id], references: [id])
+  project_id  Int?
+  project    Project?  @relation(fields: [project_id], references: [id])
+  updatedAt DateTime @updatedAt
+  updatedBy String  
+
+  EventCategory EventCategory[]
+  EventKeyword EventKeyword[]
+  Post Post[]
+}
+
+model Project {
+  id      Int       @id @default(autoincrement())
+  name    String
+  history String
+  purpose String
+  contact String?    @db.VarChar(50)
+  start_date  DateTime @db.Date
+  end_date  DateTime?  @db.Date
+  status  String    @db.VarChar(30)
+  teacher_id   Int
+  institution_id   Int 
+  institution Institution @relation(fields: [institution_id], references: [id])
+  teacher User @relation(fields: [teacher_id], references: [id])
+  updatedAt DateTime @updatedAt
+  updatedBy String  
+
+  Event Event[]
+  ProjectCategory ProjectCategory[]
+  ProjectKeyword ProjectKeyword[]
+  Post Post[]
+}
+
+model Category {
+  id Int @id @default(autoincrement())
+  name String
+  type Int //event - 0, project - 1, both - 2
+  updatedAt DateTime @updatedAt
+  updatedBy String  
+
+  ProjectCategory ProjectCategory[]
+  EventCategory EventCategory[]
+}
+
+model Keyword {
+  id Int  @id @default(autoincrement())
+  word String
+  updatedAt DateTime @updatedAt
+  updatedBy String  
+
+  ProjectKeyword ProjectKeyword[]
+  EventKeyword EventKeyword[]
+}
+
+model SocialNetwork {
+  id Int @id @default(autoincrement()) 
+  name String
+  icon String
+  updatedAt DateTime @updatedAt
+  updatedBy String 
+
+  UsersSocialNetwork UsersSocialNetwork[]
+}
+
+model Post {
+  id Int @id @default(autoincrement())
+  content String
+  project_id Int?
+  event_id Int? 
+  user_id Int?
+  project Project? @relation(fields: [project_id], references: [id])
+  event Event? @relation(fields: [event_id], references: [id])
+  user User? @relation(fields: [user_id], references: [id])
+  updatedAt DateTime @updatedAt
+  updatedBy String 
+
+  PostLikes PostLikes[]
+  PostComments PostComments[]
+}
+
+model PostLikes {
+  id Int @id @default(autoincrement()) 
+  post_id Int
+  user_id Int  
+  post Post @relation(fields: [post_id], references: [id])
+  user User @relation(fields: [user_id], references: [id])
+  updatedAt DateTime @updatedAt
+  updatedBy String 
+}
+
+model PostComments {
+  id Int @id @default(autoincrement())
+  content String
+  post_id Int
+  user_id Int
+  post Post @relation(fields: [post_id], references: [id])
+  user User @relation(fields: [user_id], references: [id])
+  updatedAt DateTime @updatedAt
+  updatedBy String 
+}
+
+//Many-to-many relations
+model ProjectCategory {
+  project_id Int
+  category_id Int
+  project Project @relation(fields: [project_id], references: [id])
+  categorty Category @relation(fields: [category_id], references: [id])
+  updatedAt DateTime @updatedAt
+  updatedBy String 
+  @@id([project_id, category_id])
+}
+
+model EventCategory {
+  event_id Int 
+  category_id Int
+  event Event @relation(fields: [event_id], references: [id])
+  categorty Category @relation(fields: [category_id], references: [id])
+  @@id([event_id, category_id])
+}
+
+model ProjectKeyword {
+  project_id Int
+  keyword_id Int
+  project Project @relation(fields: [project_id], references: [id])
+  keyword Keyword @relation(fields: [keyword_id], references: [id])
+  updatedAt DateTime @updatedAt
+  updatedBy String 
+  @@id([project_id, keyword_id])
+}
+
+model EventKeyword {
+  event_id Int
+  keyword_id Int
+  event Event @relation(fields: [event_id], references: [id])
+  keyword Keyword @relation(fields: [keyword_id], references: [id])
+  updatedAt DateTime @updatedAt
+  updatedBy String 
+  @@id([event_id, keyword_id])
+}
+
+model UsersSocialNetwork {
+  user_id Int
+  social_network_id Int
+  social_network_URL String
+  user User @relation(fields: [user_id], references: [id])
+  social_network SocialNetwork @relation(fields: [social_network_id], references: [id])
+  updatedAt DateTime @updatedAt
+  updatedBy String 
+  @@id([user_id, social_network_id])
 }
