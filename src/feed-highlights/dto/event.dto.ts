@@ -27,11 +27,9 @@ export class EventDto {
   address: string;
 
   @ApiProperty()
-  @Transform(({ value }) => Number(value))
   latitude: Decimal;
 
   @ApiProperty()
-  @Transform(({ value }) => Number(value))
   longitude: Decimal;
 
   @ApiProperty()

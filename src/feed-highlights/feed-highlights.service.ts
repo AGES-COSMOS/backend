@@ -8,7 +8,7 @@ export class FeedHighlightsService {
     const date = new Date();
     date.setDate(date.getDate() - 7);
 
-    const skip = (page - 1) * size;
+    const skip = Math.max((page - 1) * size, 0);
     const take = size > 0 ? size : 10;
 
     const events = await this.prisma.event.findMany({
@@ -17,8 +17,8 @@ export class FeedHighlightsService {
           gte: date,
         },
       },
-      skip,
-      take,
+      skip:skip,
+      take:take,
     });
 
     const projects = await this.prisma.project.findMany({

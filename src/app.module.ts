@@ -10,10 +10,10 @@ import { ProjectModule } from './projects/projects.module';
 import { UserModule } from './user/user.module';
 import { UserController } from './user/user.controller';
 import { ListagemProjetosModule } from './listagem-projetos/listagem-projetos.module';
-import { ListagemProjetosController } from './listagem-projetos/listagem-projetos.controller';
+import { FeedHighlightsModule } from './feed-highlights/feed-highlights.module';
 
 @Module({
-  imports: [GeneralParametersModule, PrismaModule, ProjectModule, UserModule, ListagemProjetosModule],
+  imports: [GeneralParametersModule, PrismaModule, ProjectModule, UserModule, ListagemProjetosModule, FeedHighlightsModule],
   controllers: [AppController, GeneralParametersController, ProjectController, UserController],
   providers: [AppService, PrismaService],
 })
