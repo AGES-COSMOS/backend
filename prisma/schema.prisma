@@ -205,7 +205,7 @@ model ProjectCategory {
   project_id Int
   category_id Int
   project Project @relation(fields: [project_id], references: [id])
-  categorty Category @relation(fields: [category_id], references: [id])
+  category Category @relation(fields: [category_id], references: [id])
   updatedAt DateTime @updatedAt
   updatedBy String 
   @@id([project_id, category_id])
@@ -215,7 +215,7 @@ model EventCategory {
   event_id Int 
   category_id Int
   event Event @relation(fields: [event_id], references: [id])
-  categorty Category @relation(fields: [category_id], references: [id])
+  category Category @relation(fields: [category_id], references: [id])
   @@id([event_id, category_id])
 }
 
