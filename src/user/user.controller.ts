@@ -17,7 +17,7 @@ export class UserController {
 
   @Post()
   async createUser(@Body() createUserDto: CreateUserDto) {
-    return this.userService.createUser(createProjectDto);
+    return this.userService.createUser(createUserDto);
   }
 
   @Get(':id')
