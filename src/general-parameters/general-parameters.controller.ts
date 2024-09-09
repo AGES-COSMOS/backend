@@ -9,14 +9,10 @@ export class GeneralParametersController {
     private readonly GeneralParametersService: GeneralParametersService,
   ) {}
 
-  @Get()
-  async findAll() {
-    return this.GeneralParametersService.findAll();
-  }
-
-  @Get(':id')
-  async findOne(@Param('id') id: string) {
-    return this.GeneralParametersService.findOne(+id); // O "+" converte string para número
+  @Get('by-parameters')
+  async findByParameters(@Query('parameters') parameters: string) {
+    const parametersArray = parameters.split(','); // Converte a string da query em um array
+    return this.GeneralParametersService.findByParameters(parametersArray);
   }
 
   @Get('parameter/:parameter')
@@ -24,10 +20,14 @@ export class GeneralParametersController {
     return this.GeneralParametersService.findByParameter(parameter);
   }
 
-  @Get('by-parameters')
-  async findByParameters(@Query('parameters') parameters: string) {
-    const parametersArray = parameters.split(','); // Converte a string da query em um array
-    return this.GeneralParametersService.findByParameters(parametersArray);
+  @Get(':id')
+  async findOne(@Param('id') id: string) {
+    return this.GeneralParametersService.findOne(+id); // O "+" converte string para número
+  }
+
+  @Get()
+  async findAll() {
+    return this.GeneralParametersService.findAll();
   }
 
   @Post()
