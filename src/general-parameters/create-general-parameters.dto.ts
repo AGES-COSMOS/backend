@@ -1,6 +1,6 @@
 import { IsString, IsNotEmpty } from 'class-validator';
 
-export class UpdateGeneralParametersDto {
+export class CreateGeneralParametersDto {
   @IsString()
   @IsNotEmpty()
   content: string;
@@ -8,4 +8,8 @@ export class UpdateGeneralParametersDto {
   @IsString()
   @IsNotEmpty()
   parameter: string;
+
+  @IsNotEmpty()
+  @IsString()
+  updatedBy: string;
 }

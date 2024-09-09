@@ -31,9 +31,7 @@ async function main() {
   await prisma.generalParameters.create({
     data: {
       content: faker.lorem.sentence(),
-      instagramURL: faker.internet.url(),
-      youtubeURL: faker.internet.url(),
-      linkedinURL: faker.internet.url(),
+      parameter: faker.lorem.sentence(),
       updatedBy: faker.name.firstName(),
     },
   });
