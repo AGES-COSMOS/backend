@@ -1,12 +1,51 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
+import { CreateGeneralParametersDto } from './create-general-parameters.dto';
 
 @Injectable()
 export class GeneralParametersService {
   constructor(private prisma: PrismaService) {}
 
-  async getAboutUs() {
+  async getParameter() {
     return this.prisma.generalParameters.findUnique({ where: { id: 1 } });
+  }
+
+  async findAll() {
+    return this.prisma.generalParameters.findMany();
+  }
+
+  // Função para obter um parâmetro específico pelo ID
+  async findOne(id: number) {
+    return this.prisma.generalParameters.findUnique({
+      where: { id },
+    });
+  }
+
+  async findByParameter(parameter: string) {
+    return this.prisma.generalParameters.findMany({
+      where: { parameter },
+    });
+  }
+
+  async findByParameters(parameters: string[]) {
+    return this.prisma.generalParameters.findMany({
+      where: {
+        parameter: {
+          in: parameters,
+        },
+      },
+    });
+  }
+
+  async create(obj: CreateGeneralParametersDto) {
+    const { parameter, content, updatedBy } = obj;
+    return this.prisma.generalParameters.create({
+      data: {
+        parameter,
+        content,
+        updatedBy,
+      },
+    });
   }
 
   async updateGeneralParameters(content: string) {
@@ -18,12 +57,10 @@ export class GeneralParametersService {
       });
     } else {
       return this.prisma.generalParameters.create({
-        data: { 
+        data: {
           content,
-          instagramURL: '',   // Adicione um valor padrão ou predefinido aqui
-          youtubeURL: '',     // Adicione um valor padrão ou predefinido aqui
-          linkedinURL: '',    // Adicione um valor padrão ou predefinido aqui
-          updatedBy: 'system' // Adicione um valor padrão ou predefinido aqui
+          parameter: '',
+          updatedBy: 'system', // Adicione um valor padrão ou predefinido aqui
         },
       });
     }
