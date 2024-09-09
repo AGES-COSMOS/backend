@@ -7,10 +7,14 @@ import { PrismaModule } from './prisma.module';
 import { GeneralParametersController } from './general-parameters/general-parameters.controller';
 import { ProjectController } from './projects/projects.controller';
 import { ProjectModule } from './projects/projects.module';
+import { UserModule } from './user/user.module';
+import { UserController } from './user/user.controller';
+import { ListagemProjetosModule } from './listagem-projetos/listagem-projetos.module';
+import { FeedHighlightsModule } from './feed-highlights/feed-highlights.module';
 
 @Module({
-  imports: [GeneralParametersModule, PrismaModule, ProjectModule],
-  controllers: [AppController, GeneralParametersController, ProjectController],
+  imports: [GeneralParametersModule, PrismaModule, ProjectModule, UserModule, ListagemProjetosModule, FeedHighlightsModule],
+  controllers: [AppController, GeneralParametersController, ProjectController, UserController],
   providers: [AppService, PrismaService],
 })
 export class AppModule {}

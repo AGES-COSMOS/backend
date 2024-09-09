@@ -4,7 +4,7 @@ import { faker } from '@faker-js/faker';
 const prisma = new PrismaClient();
 
 async function main() {
-    // Delete from many-to-many relationships first
+  // Delete from many-to-many relationships first
   await prisma.postLikes.deleteMany({});
   await prisma.postComments.deleteMany({});
   await prisma.usersSocialNetwork.deleteMany({});
@@ -57,9 +57,9 @@ async function main() {
   const user = await prisma.user.create({
     data: {
       name: faker.person.firstName(),
-      email: faker.internet.email().substring(0,50),
-      password: faker.internet.password({length:20}),
-      phone: `+55 ${faker.string.numeric(2)} ${faker.string.numeric(5)}-${faker.string.numeric(4)}`, 
+      email: faker.internet.email().substring(0, 50),
+      password: faker.internet.password({ length: 255 }),
+      phone: `+55 ${faker.string.numeric(2)} ${faker.string.numeric(5)}-${faker.string.numeric(4)}`,
       cpfcnpj: faker.string.numeric(14),
       institution_id: institution.id,
       role_id: role.id,
@@ -101,7 +101,7 @@ async function main() {
       name: faker.company.name(),
       history: faker.lorem.paragraph(),
       purpose: faker.lorem.sentence(),
-      contact: `+55 ${faker.string.numeric(2)} ${faker.string.numeric(5)}-${faker.string.numeric(4)}`, 
+      contact: `+55 ${faker.string.numeric(2)} ${faker.string.numeric(5)}-${faker.string.numeric(4)}`,
       start_date: faker.date.past(),
       status: 'ongoing',
       teacher_id: user.id,
@@ -113,7 +113,7 @@ async function main() {
   const category = await prisma.category.create({
     data: {
       name: faker.commerce.department(),
-      type: 1,  
+      type: 1,
       updatedBy: faker.person.firstName(),
     },
   });
