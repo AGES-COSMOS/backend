@@ -19,10 +19,8 @@ datasource db {
 //MODELS 
 model GeneralParameters {
   id        Int      @id @default(autoincrement())
-  content   String
-  instagramURL String
-  youtubeURL String
-  linkedinURL String
+  parameter String
+  content   String  
   updatedAt DateTime @updatedAt
   updatedBy String
 }
