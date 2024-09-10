@@ -104,7 +104,6 @@ model Event{
   updatedBy String  
 
   EventCategory EventCategory[]
-  EventKeyword EventKeyword[]
   Post Post[]
 }
 
@@ -112,6 +111,7 @@ model Project {
   id      Int       @id @default(autoincrement())
   name    String
   history String
+  imageURL  String?
   purpose String
   contact String?    @db.VarChar(50)
   start_date  DateTime @db.Date
@@ -148,7 +148,6 @@ model Keyword {
   updatedBy String  
 
   ProjectKeyword ProjectKeyword[]
-  EventKeyword EventKeyword[]
 }
 
 model SocialNetwork {
@@ -225,16 +224,6 @@ model ProjectKeyword {
   updatedAt DateTime @updatedAt
   updatedBy String 
   @@id([project_id, keyword_id])
-}
-
-model EventKeyword {
-  event_id Int
-  keyword_id Int
-  event Event @relation(fields: [event_id], references: [id])
-  keyword Keyword @relation(fields: [keyword_id], references: [id])
-  updatedAt DateTime @updatedAt
-  updatedBy String 
-  @@id([event_id, keyword_id])
 }
 
 model UsersSocialNetwork {
