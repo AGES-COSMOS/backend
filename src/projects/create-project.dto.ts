@@ -1,16 +1,16 @@
 import {
-  IsString,
-  IsNotEmpty,
   IsDate,
-  IsOptional,
   IsInt,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 
 export class CreateProjectDto {
   id: number;
-  
+
   @ApiProperty({ description: 'The name of the project' })
   @IsString()
   @IsNotEmpty()
@@ -26,18 +26,30 @@ export class CreateProjectDto {
   @IsNotEmpty()
   purpose: string;
 
-  @ApiProperty({ description: 'Optional contact for the project', required: false })
+  @ApiProperty({
+    description: 'Optional contact for the project',
+    required: false,
+  })
   @IsString()
   @IsOptional()
   contact?: string;
 
-  @ApiProperty({ description: 'Start date of the project', type: String, format: 'date-time' })
+  @ApiProperty({
+    description: 'Start date of the project',
+    type: String,
+    format: 'date-time',
+  })
   @IsDate()
   @IsNotEmpty()
   @Type(() => Date)
   start_date: Date;
 
-  @ApiProperty({ description: 'End date of the project', required: false, type: String, format: 'date-time' })
+  @ApiProperty({
+    description: 'End date of the project',
+    required: false,
+    type: String,
+    format: 'date-time',
+  })
   @IsDate()
   @IsOptional()
   @Type(() => Date)
@@ -60,13 +72,19 @@ export class CreateProjectDto {
   @Type(() => Number)
   institution_id: number;
 
-  @ApiProperty({ description: 'The date the project was last updated', type: String, format: 'date-time' })
+  @ApiProperty({
+    description: 'The date the project was last updated',
+    type: String,
+    format: 'date-time',
+  })
   @IsDate()
   @IsNotEmpty()
   @Type(() => Date)
   updatedAt: Date;
 
-  @ApiProperty({ description: 'The name of the person who updated the project' })
+  @ApiProperty({
+    description: 'The name of the person who updated the project',
+  })
   @IsString()
   @IsNotEmpty()
   updatedBy: string;

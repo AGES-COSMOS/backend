@@ -1,8 +1,10 @@
 import { IsString, IsInt, IsDate, IsOptional } from 'class-validator';
+import { Type } from "class-transformer";
 
 export class UpdateProjectDto {
   @IsInt()
   @IsOptional()
+  @Type(() => Number)
   id?: number;
 
   @IsString()
@@ -23,10 +25,12 @@ export class UpdateProjectDto {
 
   @IsDate()
   @IsOptional()
+  @Type(() => Date)
   start_date?: Date;
 
   @IsDate()
   @IsOptional()
+  @Type(() => Date)
   end_date?: Date;
 
   @IsString()
@@ -35,14 +39,17 @@ export class UpdateProjectDto {
 
   @IsInt()
   @IsOptional()
+  @Type(() => Number)
   teacher_id?: number;
 
   @IsInt()
   @IsOptional()
+  @Type(() => Number)
   institution_id?: number;
 
   @IsDate()
   @IsOptional()
+  @Type(() => Date)
   updatedAt?: Date;
 
   @IsString()
