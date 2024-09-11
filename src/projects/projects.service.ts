@@ -29,7 +29,7 @@ export class ProjectService {
     });
 
     if (imageURL) {
-      const oldImagePath = path.join('uploads', currentProject.imageURL);
+      const oldImagePath = path.join('public', currentProject.imageURL);
 
       if (fs.existsSync(oldImagePath)) {
         fs.unlinkSync(oldImagePath);
