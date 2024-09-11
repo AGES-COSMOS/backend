@@ -1,143 +1,144 @@
 import {
     IsString,
-    IsNotEmpty,
-    IsDate,
-    IsInt,
-    IsArray,
     IsOptional,
-  } from 'class-validator';
+    IsDate,
+    IsArray,
+    IsNotEmpty,
+    IsInt,
+} from 'class-validator';
   
-  class TeacherDto {
+class TeacherDto {
     id: number;
-  
+
     @IsString()
     @IsNotEmpty()
     name: string;
-  
+
     @IsString()
     @IsNotEmpty()
     email: string;
-  }
+}
   
-  class InstitutionDto {
+class InstitutionDto {
     id: number;
-  
+
     @IsString()
     @IsNotEmpty()
     name: string;
-  }
+}
   
-  class EventDto {
+class EventDto {
     id: number;
-  
+
     @IsString()
     @IsNotEmpty()
     title: string;
-  
+
     @IsString()
     @IsOptional()
     imageURL?: string;
-  
+
     @IsString()
     @IsNotEmpty()
     description: string;
-  
+
     @IsDate()
     @IsNotEmpty()
     date: Date;
-  }
+}
   
-  class ProjectCategoryDto {
+class ProjectCategoryDto {
     category_id: number;
-  
+
     @IsString()
     @IsNotEmpty()
     name: string;
-  }
+}
   
-  class ProjectKeywordDto {
+class ProjectKeywordDto {
     keyword_id: number;
-  
+
     @IsString()
     @IsNotEmpty()
     word: string;
-  }
+}
   
-  class PostDto {
+class PostDto {
     id: number;
-  
+
     @IsString()
     @IsNotEmpty()
     content: string;
-  }
+}
   
-  export class CreateListagemProjetosDto {
-    id: number;
-  
+export class UpdateListagemProjetosDto {
     @IsString()
-    @IsNotEmpty()
-    name: string;
-  
+    @IsOptional()
+    name?: string;
+
     @IsString()
-    @IsNotEmpty()
-    history: string;
-  
+    @IsOptional()
+    history?: string;
+
     @IsString()
     @IsOptional()
     imageURL?: string;
-  
+
     @IsString()
-    @IsNotEmpty()
-    purpose: string;
-  
+    @IsOptional()
+    purpose?: string;
+
     @IsString()
     @IsOptional()
     contact?: string;
-  
+
     @IsDate()
-    @IsNotEmpty()
-    start_date: Date;
-  
+    @IsOptional()
+    start_date?: Date;
+
     @IsDate()
     @IsOptional()
     end_date?: Date;
-  
+
     @IsString()
-    @IsNotEmpty()
-    status: string;
-  
-    teacher_id: number;
-  
-    institution_id: number;
-  
+    @IsOptional()
+    status?: string;
+
+    @IsInt()
+    @IsOptional()
+    teacher_id?: number;
+
+    @IsInt()
+    @IsOptional()
+    institution_id?: number;
+
     @IsDate()
-    @IsNotEmpty()
-    updatedAt: Date;
-  
+    @IsOptional()
+    updatedAt?: Date;
+
     @IsString()
-    @IsNotEmpty()
-    updatedBy: string;
-  
-    @IsNotEmpty()
-    teacher: TeacherDto;
-  
-    @IsNotEmpty()
-    institution: InstitutionDto;
-  
+    @IsOptional()
+    updatedBy?: string;
+
+    @IsOptional()
+    teacher?: TeacherDto;
+
+    @IsOptional()
+    institution?: InstitutionDto;
+
     @IsArray()
     @IsOptional()
     events?: EventDto[];
-  
+
     @IsArray()
     @IsOptional()
     projectCategories?: ProjectCategoryDto[];
-  
+
     @IsArray()
     @IsOptional()
     projectKeywords?: ProjectKeywordDto[];
-  
+
     @IsArray()
     @IsOptional()
     posts?: PostDto[];
-  }
-  
+}
