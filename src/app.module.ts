@@ -13,6 +13,8 @@ import { ListagemProjetosModule } from './listagem-projetos/listagem-projetos.mo
 import { FeedHighlightsModule } from './feed-highlights/feed-highlights.module';
 import { memoryStorage } from 'multer';
 import { MulterModule } from '@nestjs/platform-express';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -24,6 +26,10 @@ import { MulterModule } from '@nestjs/platform-express';
     FeedHighlightsModule,
     MulterModule.register({
       storage: memoryStorage(),
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '../..', 'public'),
+      serveRoot: '/public',
     }),
   ],
   controllers: [
