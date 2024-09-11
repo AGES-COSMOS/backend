@@ -52,6 +52,7 @@ describe('FeedHighlightsController', () => {
         {
           id: 1,
           name: 'Project 1',
+          imageURL: 'http://example.com/image1.jpg',
           history: 'History 1',
           purpose: 'Purpose 1',
           contact: 'Contact 1',
