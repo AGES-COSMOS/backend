@@ -9,7 +9,6 @@ async function main() {
   await prisma.postComments.deleteMany({});
   await prisma.usersSocialNetwork.deleteMany({});
   await prisma.projectKeyword.deleteMany({});
-  await prisma.eventKeyword.deleteMany({});
   await prisma.projectCategory.deleteMany({});
   await prisma.eventCategory.deleteMany({});
 
@@ -140,13 +139,7 @@ async function main() {
     },
   });
 
-  await prisma.eventKeyword.create({
-    data: {
-      event_id: event.id,
-      keyword_id: keyword.id,
-      updatedBy: faker.person.firstName(),
-    },
-  });
+
 
   await prisma.projectKeyword.create({
     data: {
