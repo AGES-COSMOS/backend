@@ -47,7 +47,14 @@ export class ProjectService {
   }
 
   async deleteProject(id: number) {
-    return this.prisma.project.delete({ where: { id } });
+    const response = await this.prisma.project.delete({ where: { id } });
+    const oldImagePath = path.join('public', response.imageURL);
+
+    if (fs.existsSync(oldImagePath)) {
+      fs.unlinkSync(oldImagePath);
+    }
+
+    return response;
   }
 
   async getAllProjects() {
