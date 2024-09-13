@@ -8,9 +8,9 @@ export class ListagemEventosService {
   async getEvents(){
     return await this.prisma.event.findMany({
         include: {
-            institution: true
-            
-            
+            institution: true,
+            EventCategory: true,
+            project: true,
         },
       });
     }
