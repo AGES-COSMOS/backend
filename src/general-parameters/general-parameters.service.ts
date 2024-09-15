@@ -21,21 +21,21 @@ export class GeneralParametersService {
     });
   }
 
-  async findByParameter(parameter: string) {
-    return this.prisma.generalParameters.findMany({
-      where: { parameter },
-    });
-  }
+  // async findByParameter(parameter: JSON) {
+  //   return this.prisma.generalParameters.findMany({
+  //     where: { parameter },
+  //   });
+  // }
 
-  async findByParameters(parameters: string[]) {
-    return this.prisma.generalParameters.findMany({
-      where: {
-        parameter: {
-          in: parameters,
-        },
-      },
-    });
-  }
+  // async findByParameters(parameters: string[]) {
+  //   return this.prisma.generalParameters.findMany({
+  //     where: {
+  //       parameter: {
+  //         in: parameters,
+  //       },
+  //     },
+  //   });
+  // }
 
   async create(obj: CreateGeneralParametersDto) {
     const { parameter, content, updatedBy } = obj;

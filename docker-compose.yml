@@ -31,7 +31,7 @@ services:
     links:
       - postgres
     command: >
-      sh -c "npx prisma migrate dev && npm run start"
+      sh -c "npx prisma migrate dev && npx prisma db seed && npm run start"
 
 volumes:
   postgres:

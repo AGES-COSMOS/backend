@@ -9,16 +9,16 @@ export class GeneralParametersController {
     private readonly GeneralParametersService: GeneralParametersService,
   ) {}
 
-  @Get('by-parameters')
-  async findByParameters(@Query('parameters') parameters: string) {
-    const parametersArray = parameters.split(','); // Converte a string da query em um array
-    return this.GeneralParametersService.findByParameters(parametersArray);
-  }
+  // @Get('by-parameters')
+  // async findByParameters(@Query('parameters') parameters: string) {
+  //   const parametersArray = parameters.split(','); // Converte a string da query em um array
+  //   return this.GeneralParametersService.findByParameters(parametersArray);
+  // }
 
-  @Get('parameter/:parameter')
-  async findByParameter(@Param('parameter') parameter: string) {
-    return this.GeneralParametersService.findByParameter(parameter);
-  }
+  // @Get('parameter/:parameter')
+  // async findByParameter(@Param('parameter') parameter: string) {
+  //   return this.GeneralParametersService.findByParameter(parameter);
+  // }
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
