@@ -120,6 +120,7 @@ async function main() {
   const project = await prisma.project.create({
     data: {
       name: faker.company.name(),
+      imageURL: faker.string.uuid() + '.webp',
       history: faker.lorem.paragraph(),
       purpose: faker.lorem.sentence(),
       contact: `+55 ${faker.string.numeric(2)} ${faker.string.numeric(5)}-${faker.string.numeric(4)}`,
