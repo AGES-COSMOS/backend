@@ -29,9 +29,31 @@ async function main() {
 
   await prisma.generalParameters.create({
     data: {
-      content: faker.lorem.sentence(),
-      parameter: faker.lorem.sentence(),
-      updatedBy: faker.person.firstName(),
+      content:
+        'Aplicativo em formato de rede social que visa unir projetos de extensão desenvolvidos por cursos de direito.\nFoco: Acesso à Justiça.\nObjetivo: Criar uma rede de projetos.',
+      parameter: [
+        {
+          name: 'Telefone',
+          value: '(51) 99999-9999',
+        },
+        {
+          name: 'Email',
+          value: 'exemplo@gmail.com',
+        },
+        {
+          name: 'Instagram',
+          value: 'https://www.instagram.com/cosmojurista/',
+        },
+        {
+          name: 'YouTube',
+          value: 'https://www.youtube.com/',
+        },
+        {
+          name: 'LinkedIn',
+          value: 'https://www.linkedin.com/feed/',
+        },
+      ],
+      updatedBy: faker.name.firstName(),
     },
   });
 
