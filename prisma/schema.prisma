@@ -111,7 +111,7 @@ model Project {
   id      Int       @id @default(autoincrement())
   name    String
   history String
-  imageURL  String?
+  imageURL  String
   purpose String
   contact String?    @db.VarChar(50)
   start_date  DateTime @db.Date
