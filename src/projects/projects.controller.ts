@@ -6,7 +6,7 @@ import {
   Get,
   Param,
   Post,
-  Put,
+  Put, Query,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
@@ -16,6 +16,7 @@ import { CreateProjectDto } from './create-project.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { SharpPipe } from '../pipes/sharp.pipe';
 import { ApiBody, ApiConsumes, ApiOkResponse } from '@nestjs/swagger';
+import { ProjectFiltersDto } from './dto/project-filters.dto';
 
 @Controller('project')
 export class ProjectController {
@@ -66,7 +67,11 @@ export class ProjectController {
   }
 
   @Get()
-  async getAllProjects() {
-    return this.projectService.getAllProjects();
+  async getAllProjects(
+    @Query() filters: ProjectFiltersDto,
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10,
+  ) {
+    return this.projectService.getAllProjects(filters, page, limit);
   }
 }
