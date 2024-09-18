@@ -15,7 +15,7 @@ import { UpdateProjectDto } from './update-projects.dto';
 import { CreateProjectDto } from './create-project.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { SharpPipe } from '../pipes/sharp.pipe';
-import { ApiBody, ApiConsumes, ApiOkResponse } from '@nestjs/swagger';
+import { ApiBody, ApiConsumes, ApiOkResponse, ApiQuery } from '@nestjs/swagger';
 import { ProjectFiltersDto } from './dto/project-filters.dto';
 
 @Controller('project')
@@ -67,6 +67,14 @@ export class ProjectController {
   }
 
   @Get()
+  @ApiQuery({ name: 'page', required: false, description: 'Número da página' })
+  @ApiQuery({
+    name: 'limit',
+    required: false,
+    description: 'Tamanho da página',
+  })
+  @ApiQuery({ type: ProjectFiltersDto })
+  @ApiOkResponse({})
   async getAllProjects(
     @Query() filters: ProjectFiltersDto,
     @Query('page') page: number = 1,
