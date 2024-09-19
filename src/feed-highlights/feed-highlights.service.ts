@@ -17,8 +17,8 @@ export class FeedHighlightsService {
           gte: date,
         },
       },
-      skip:skip,
-      take:take,
+      skip: skip,
+      take: take,
     });
 
     const projects = await this.prisma.project.findMany({
