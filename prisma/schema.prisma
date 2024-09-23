@@ -19,7 +19,7 @@ datasource db {
 //MODELS 
 model GeneralParameters {
   id        Int      @id @default(autoincrement())
-  parameter Json
+  parameter String
   content   String  
   updatedAt DateTime @updatedAt
   updatedBy String

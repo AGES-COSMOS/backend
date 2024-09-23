@@ -27,34 +27,40 @@ async function main() {
   await prisma.institution.deleteMany({});
   await prisma.generalParameters.deleteMany({});
 
-  await prisma.generalParameters.create({
-    data: {
-      content:
-        'Aplicativo em formato de rede social que visa unir projetos de extensão desenvolvidos por cursos de direito.\nFoco: Acesso à Justiça.\nObjetivo: Criar uma rede de projetos.',
-      parameter: [
-        {
-          name: 'Telefone',
-          value: '(51) 99999-9999',
-        },
-        {
-          name: 'Email',
-          value: 'exemplo@gmail.com',
-        },
-        {
-          name: 'Instagram',
-          value: 'https://www.instagram.com/cosmojurista/',
-        },
-        {
-          name: 'YouTube',
-          value: 'https://www.youtube.com/',
-        },
-        {
-          name: 'LinkedIn',
-          value: 'https://www.linkedin.com/feed/',
-        },
-      ],
-      updatedBy: faker.name.firstName(),
-    },
+  await prisma.generalParameters.createMany({
+    data: [
+      {
+        content:
+          'Aplicativo em formato de rede social que visa unir projetos de extensão desenvolvidos por cursos de direito.\nFoco: Acesso à Justiça.\nObjetivo: Criar uma rede de projetos.',
+        parameter: 'SobreNos',
+        updatedBy: faker.name.firstName(),
+      },
+      {
+        content: '(51) 99999-9999',
+        parameter: 'Telefone',
+        updatedBy: faker.name.firstName(),
+      },
+      {
+        content: 'exemplo@gmail.com',
+        parameter: 'E-mail',
+        updatedBy: faker.name.firstName(),
+      },
+      {
+        content: 'https://www.instagram.com/rede.cosmos/',
+        parameter: 'Instagram',
+        updatedBy: faker.name.firstName(),
+      },
+      {
+        content: 'https://www.youtube.com/@cosmojurista',
+        parameter: 'YouTube',
+        updatedBy: faker.name.firstName(),
+      },
+      {
+        content: 'https://www.linkedin.com/company/rede-cosmos/',
+        parameter: 'LinkedIn',
+        updatedBy: faker.name.firstName(),
+      },
+    ],
   });
 
   const institution = await prisma.institution.create({

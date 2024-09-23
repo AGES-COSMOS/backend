@@ -90,6 +90,7 @@ CREATE TABLE "Project" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "history" TEXT NOT NULL,
+    "imageURL" TEXT NOT NULL,
     "purpose" TEXT NOT NULL,
     "contact" VARCHAR(50),
     "start_date" DATE NOT NULL,
@@ -200,16 +201,6 @@ CREATE TABLE "ProjectKeyword" (
 );
 
 -- CreateTable
-CREATE TABLE "EventKeyword" (
-    "event_id" INTEGER NOT NULL,
-    "keyword_id" INTEGER NOT NULL,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-    "updatedBy" TEXT NOT NULL,
-
-    CONSTRAINT "EventKeyword_pkey" PRIMARY KEY ("event_id","keyword_id")
-);
-
--- CreateTable
 CREATE TABLE "UsersSocialNetwork" (
     "user_id" INTEGER NOT NULL,
     "social_network_id" INTEGER NOT NULL,
@@ -282,12 +273,6 @@ ALTER TABLE "ProjectKeyword" ADD CONSTRAINT "ProjectKeyword_project_id_fkey" FOR
 
 -- AddForeignKey
 ALTER TABLE "ProjectKeyword" ADD CONSTRAINT "ProjectKeyword_keyword_id_fkey" FOREIGN KEY ("keyword_id") REFERENCES "Keyword"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "EventKeyword" ADD CONSTRAINT "EventKeyword_event_id_fkey" FOREIGN KEY ("event_id") REFERENCES "Event"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "EventKeyword" ADD CONSTRAINT "EventKeyword_keyword_id_fkey" FOREIGN KEY ("keyword_id") REFERENCES "Keyword"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "UsersSocialNetwork" ADD CONSTRAINT "UsersSocialNetwork_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
