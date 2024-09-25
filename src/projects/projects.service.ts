@@ -17,9 +17,9 @@ export class ProjectService {
   }
 
   async getProject(id: number) {
-    return this.prisma.project.findUnique({ where: { id: id } });
+    return await this.prisma.project.findUnique({ where: { id } });
   }
-
+  
   async updateProject(
     id: number,
     updateProjectDto: UpdateProjectDto,
@@ -83,7 +83,7 @@ export class ProjectService {
         },
     });
     if (!project) {
-      throw new NotFoundException(`Project with ID ${id} not found`);//
+      throw new NotFoundException(`Project with ID ${id} not found`);
   }
 
   return project;
