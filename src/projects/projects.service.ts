@@ -60,4 +60,27 @@ export class ProjectService {
   async getAllProjects() {
     return this.prisma.project.findMany();
   }
+
+  async getProjectDetails(id: number) {
+    return this.prisma.project.findUnique({
+        where: { id: id }, 
+        include: {
+            institution: true,
+            teacher: true,     
+            Event: true,        
+            ProjectCategory: {
+                include: {
+                    category: true,  
+                },
+            },
+            ProjectKeyword: {
+                include: {
+                    keyword: true,  
+                },
+            },
+            Post: true,          
+        },
+    });
+  }
+
 }
