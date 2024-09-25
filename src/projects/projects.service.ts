@@ -83,7 +83,7 @@ export class ProjectService {
         },
     });
     if (!project) {
-      throw new NotFoundException(`Project with ID ${id} not found`);
+      throw new NotFoundException(`Project with ID ${id} not found`);//
   }
 
   return project;
