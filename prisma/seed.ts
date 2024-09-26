@@ -1,5 +1,4 @@
 import { PrismaClient } from '@prisma/client';
-import { faker } from '@faker-js/faker';
 
 const prisma = new PrismaClient();
 
@@ -27,196 +26,217 @@ async function main() {
   await prisma.institution.deleteMany({});
   await prisma.generalParameters.deleteMany({});
 
+  // Create general parameters
   await prisma.generalParameters.createMany({
     data: [
       {
-        content:
-          'Aplicativo em formato de rede social que visa unir projetos de extensão desenvolvidos por cursos de direito.\nFoco: Acesso à Justiça.\nObjetivo: Criar uma rede de projetos.',
+        content: 'Aplicativo em formato de rede social que visa unir projetos de extensão desenvolvidos por cursos de direito.\nFoco: Acesso à Justiça.\nObjetivo: Criar uma rede de projetos.',
         parameter: 'SobreNos',
-        updatedBy: faker.name.firstName(),
+        updatedBy: 'Admin',
       },
       {
         content: '(51) 99999-9999',
         parameter: 'Telefone',
-        updatedBy: faker.name.firstName(),
+        updatedBy: 'Admin',
       },
       {
         content: 'exemplo@gmail.com',
         parameter: 'E-mail',
-        updatedBy: faker.name.firstName(),
+        updatedBy: 'Admin',
       },
       {
         content: 'https://www.instagram.com/rede.cosmos/',
         parameter: 'Instagram',
-        updatedBy: faker.name.firstName(),
+        updatedBy: 'Admin',
       },
       {
         content: 'https://www.youtube.com/@cosmojurista',
         parameter: 'YouTube',
-        updatedBy: faker.name.firstName(),
+        updatedBy: 'Admin',
       },
       {
         content: 'https://www.linkedin.com/company/rede-cosmos/',
         parameter: 'LinkedIn',
-        updatedBy: faker.name.firstName(),
+        updatedBy: 'Admin',
       },
     ],
   });
 
-  const institution = await prisma.institution.create({
-    data: {
-      name: faker.company.name(),
-      cnpj: faker.string.numeric(14),
-      latitude: faker.location.latitude(),
-      longitude: faker.location.longitude(),
-      updatedBy: faker.person.firstName(),
-    },
-  });
+  // Create 3 institutions with mocked data
+  const institutions = await Promise.all([
+    prisma.institution.create({
+      data: {
+        name: 'Institution 1',
+        cnpj: '12345678000190',
+        latitude: '-30.0277',
+        longitude: '-51.2287',
+        updatedBy: 'Admin',
+      },
+    }),
+    prisma.institution.create({
+      data: {
+        name: 'Institution 2',
+        cnpj: '98765432000112',
+        latitude: '-30.0277',
+        longitude: '-51.2287',
+        updatedBy: 'Admin',
+      },
+    }),
+    prisma.institution.create({
+      data: {
+        name: 'Institution 3',
+        cnpj: '19283746000158',
+        latitude: '-30.0277',
+        longitude: '-51.2287',
+        updatedBy: 'Admin',
+      },
+    }),
+  ]);
 
-  const role = await prisma.role.create({
-    data: {
-      title: 'Admin',
-      updatedBy: faker.person.firstName(),
-    },
-  });
+  // Create 2 roles (Teacher and Student)
+  const roles = await Promise.all([
+    prisma.role.create({
+      data: {
+        title: 'Teacher',
+        updatedBy: 'Admin',
+      },
+    }),
+    prisma.role.create({
+      data: {
+        title: 'Student',
+        updatedBy: 'Admin',
+      },
+    }),
+  ]);
 
-  // Seeding User
-  const user = await prisma.user.create({
-    data: {
-      name: faker.person.firstName(),
-      email: faker.internet.email().substring(0, 50),
-      password: faker.internet.password({ length: 255 }),
-      phone: `+55 ${faker.string.numeric(2)} ${faker.string.numeric(5)}-${faker.string.numeric(4)}`,
-      cpfcnpj: faker.string.numeric(14),
-      institution_id: institution.id,
-      role_id: role.id,
-      blocked: false,
-    },
-  });
+  // Seeding 3 Teachers with mock data
+  const teachers = await Promise.all([
+    prisma.user.create({
+      data: {
+        name: 'Teacher One',
+        email: 'teacher.one@example.com',
+        password: 'password123',
+        phone: '+55 11 99999-1111',
+        cpfcnpj: '11111111111',
+        institution_id: institutions[0].id,
+        role_id: roles[0].id, // Teacher role
+        blocked: false,
+      },
+    }),
+    prisma.user.create({
+      data: {
+        name: 'Teacher Two',
+        email: 'teacher.two@example.com',
+        password: 'password123',
+        phone: '+55 21 99999-2222',
+        cpfcnpj: '22222222222',
+        institution_id: institutions[1].id,
+        role_id: roles[0].id, // Teacher role
+        blocked: false,
+      },
+    }),
+    prisma.user.create({
+      data: {
+        name: 'Teacher Three',
+        email: 'teacher.three@example.com',
+        password: 'password123',
+        phone: '+55 31 99999-3333',
+        cpfcnpj: '33333333333',
+        institution_id: institutions[2].id,
+        role_id: roles[0].id, // Teacher role
+        blocked: false,
+      },
+    }),
+  ]);
 
-  await prisma.address.create({
-    data: {
-      street: faker.location.street(),
-      number: faker.location.buildingNumber(),
-      complement: faker.location.secondaryAddress(),
-      neighborhood: faker.location.city(),
-      city: faker.location.city(),
-      state: faker.location.state(),
-      contry: faker.location.country(),
-      postalCode: faker.string.numeric(8),
-      user_id: user.id,
-    },
-  });
+  // Seeding 3 Students with mock data
+  const students = await Promise.all([
+    prisma.user.create({
+      data: {
+        name: 'Student One',
+        email: 'student.one@example.com',
+        password: 'password123',
+        phone: '+55 41 99999-4444',
+        cpfcnpj: '44444444444',
+        institution_id: institutions[0].id,
+        role_id: roles[1].id, // Student role
+        blocked: false,
+      },
+    }),
+    prisma.user.create({
+      data: {
+        name: 'Student Two',
+        email: 'student.two@example.com',
+        password: 'password123',
+        phone: '+55 51 99999-5555',
+        cpfcnpj: '55555555555',
+        institution_id: institutions[1].id,
+        role_id: roles[1].id, // Student role
+        blocked: false,
+      },
+    }),
+    prisma.user.create({
+      data: {
+        name: 'Student Three',
+        email: 'student.three@example.com',
+        password: 'password123',
+        phone: '+55 61 99999-6666',
+        cpfcnpj: '66666666666',
+        institution_id: institutions[2].id,
+        role_id: roles[1].id, // Student role
+        blocked: false,
+      },
+    }),
+  ]);
 
-  const event = await prisma.event.create({
-    data: {
-      title: faker.lorem.words(3),
-      description: faker.lorem.paragraph(),
-      date: faker.date.future(),
-      hour: faker.date.recent(),
-      IsOnline: faker.datatype.boolean(),
-      address: faker.location.streetAddress(),
-      latitude: faker.location.latitude(),
-      longitude: faker.location.longitude(),
-      institution_id: institution.id,
-      updatedBy: faker.person.firstName(),
-    },
-  });
+  // Create 3 categories with mock data
+  const categories = await Promise.all([
+    prisma.category.create({
+      data: {
+        name: 'Category One',
+        type: 1,
+        updatedBy: 'Admin',
+      },
+    }),
+    prisma.category.create({
+      data: {
+        name: 'Category Two',
+        type: 1,
+        updatedBy: 'Admin',
+      },
+    }),
+    prisma.category.create({
+      data: {
+        name: 'Category Three',
+        type: 1,
+        updatedBy: 'Admin',
+      },
+    }),
+  ]);
 
-  const project = await prisma.project.create({
-    data: {
-      name: faker.company.name(),
-      imageURL: faker.string.uuid() + '.webp',
-      history: faker.lorem.paragraph(),
-      purpose: faker.lorem.sentence(),
-      contact: `+55 ${faker.string.numeric(2)} ${faker.string.numeric(5)}-${faker.string.numeric(4)}`,
-      start_date: faker.date.past(),
-      status: 'ongoing',
-      teacher_id: user.id,
-      institution_id: institution.id,
-      updatedBy: faker.person.firstName(),
-    },
-  });
+  // Create 3 keywords with mock data
+  const keywords = await Promise.all([
+    prisma.keyword.create({
+      data: {
+        word: 'KeywordOne',
+        updatedBy: 'Admin',
+      },
+    }),
+    prisma.keyword.create({
+      data: {
+        word: 'KeywordTwo',
+        updatedBy: 'Admin',
+      },
+    }),
+    prisma.keyword.create({
+      data: {
+        word: 'KeywordThree',
+        updatedBy: 'Admin',
+      },
+    }),
+  ]);
 
-  const category = await prisma.category.create({
-    data: {
-      name: faker.commerce.department(),
-      type: 1,
-      updatedBy: faker.person.firstName(),
-    },
-  });
-
-  const keyword = await prisma.keyword.create({
-    data: {
-      word: faker.lorem.word(),
-      updatedBy: faker.person.firstName(),
-    },
-  });
-
-  await prisma.eventCategory.create({
-    data: {
-      event_id: event.id,
-      category_id: category.id,
-    },
-  });
-
-  await prisma.projectCategory.create({
-    data: {
-      project_id: project.id,
-      category_id: category.id,
-      updatedBy: faker.person.firstName(),
-    },
-  });
-
-  await prisma.projectKeyword.create({
-    data: {
-      project_id: project.id,
-      keyword_id: keyword.id,
-      updatedBy: faker.person.firstName(),
-    },
-  });
-
-  const socialNetwork = await prisma.socialNetwork.create({
-    data: {
-      name: faker.company.name(),
-      icon: `https://ui-avatars.com/api/?name=${faker.person.firstName()}&background=random`,
-      updatedBy: faker.person.firstName(),
-    },
-  });
-
-  await prisma.usersSocialNetwork.create({
-    data: {
-      user_id: user.id,
-      social_network_id: socialNetwork.id,
-      social_network_URL: faker.internet.url(),
-      updatedBy: faker.person.firstName(),
-    },
-  });
-
-  const post = await prisma.post.create({
-    data: {
-      content: faker.lorem.paragraph(),
-      user_id: user.id,
-      updatedBy: faker.person.firstName(),
-    },
-  });
-
-  await prisma.postLikes.create({
-    data: {
-      post_id: post.id,
-      user_id: user.id,
-      updatedBy: faker.person.firstName(),
-    },
-  });
-
-  await prisma.postComments.create({
-    data: {
-      content: faker.lorem.sentence(),
-      post_id: post.id,
-      user_id: user.id,
-      updatedBy: faker.person.firstName(),
-    },
-  });
+  console.log('Seeding completed with mock data!');
 }
 
 main()
