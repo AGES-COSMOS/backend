@@ -40,34 +40,40 @@ async function main() {
   await prisma.generalParameters.deleteMany({});
 
   // Create general parameters
-  await prisma.generalParameters.create({
-    data: {
-      content:
-        'Aplicativo em formato de rede social que visa unir projetos de extensão desenvolvidos por cursos de direito.\nFoco: Acesso à Justiça.\nObjetivo: Criar uma rede de projetos.',
-      parameter: [
-        {
-          name: 'Telefone',
-          value: '(51) 99999-9999',
-        },
-        {
-          name: 'Email',
-          value: 'exemplo@gmail.com',
-        },
-        {
-          name: 'Instagram',
-          value: 'https://www.instagram.com/cosmojurista/',
-        },
-        {
-          name: 'YouTube',
-          value: 'https://www.youtube.com/',
-        },
-        {
-          name: 'LinkedIn',
-          value: 'https://www.linkedin.com/feed/',
-        },
-      ],
-      updatedBy: faker.person.firstName(),
-    },
+  await prisma.generalParameters.createMany({
+    data: [
+      {
+        content:
+          'Aplicativo em formato de rede social que visa unir projetos de extensão desenvolvidos por cursos de direito.\nFoco: Acesso à Justiça.\nObjetivo: Criar uma rede de projetos.',
+        parameter: 'SobreNos',
+        updatedBy: 'Admin',
+      },
+      {
+        content: '(51) 99999-9999',
+        parameter: 'Telefone',
+        updatedBy: 'Admin',
+      },
+      {
+        content: 'exemplo@gmail.com',
+        parameter: 'E-mail',
+        updatedBy: 'Admin',
+      },
+      {
+        content: 'https://www.instagram.com/rede.cosmos/',
+        parameter: 'Instagram',
+        updatedBy: 'Admin',
+      },
+      {
+        content: 'https://www.youtube.com/@cosmojurista',
+        parameter: 'YouTube',
+        updatedBy: 'Admin',
+      },
+      {
+        content: 'https://www.linkedin.com/company/rede-cosmos/',
+        parameter: 'LinkedIn',
+        updatedBy: 'Admin',
+      },
+    ],
   });
 
   const roles = [],
