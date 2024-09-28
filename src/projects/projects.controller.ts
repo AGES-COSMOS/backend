@@ -69,4 +69,14 @@ export class ProjectController {
   async getAllProjects() {
     return this.projectService.getAllProjects();
   }
+
+  @Get(':id') 
+  async getProjectDetails(@Param('id') id: string) {
+      const numericId = parseInt(id, 10);
+      if (isNaN(numericId)) {
+          throw new BadRequestException('Invalid project ID');
+      }
+      return await this.projectService.getProjectDetails(numericId);
+  }
+
 }

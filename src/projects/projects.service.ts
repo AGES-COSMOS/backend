@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { CreateProjectDto } from './create-project.dto';
 import { UpdateProjectDto } from './update-projects.dto';
+import { NotFoundException } from '@nestjs/common';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 
@@ -16,9 +17,9 @@ export class ProjectService {
   }
 
   async getProject(id: number) {
-    return this.prisma.project.findUnique({ where: { id: id } });
+    return await this.prisma.project.findUnique({ where: { id } });
   }
-
+  
   async updateProject(
     id: number,
     updateProjectDto: UpdateProjectDto,
@@ -60,4 +61,32 @@ export class ProjectService {
   async getAllProjects() {
     return this.prisma.project.findMany();
   }
+
+  async getProjectDetails(id: number) {
+    const project = await this.prisma.project.findUnique({
+        where: { id: id }, 
+        include: {
+            institution: true,
+            teacher: true,     
+            Event: true,        
+            ProjectCategory: {
+                include: {
+                    category: true,  
+                },
+            },
+            ProjectKeyword: {
+                include: {
+                    keyword: true,  
+                },
+            },
+            Post: true,          
+        },
+    });
+    if (!project) {
+      throw new NotFoundException(`Project with ID ${id} not found`);
+  }
+
+  return project;
+  }
+
 }
