@@ -7,6 +7,8 @@ import { PrismaModule } from './prisma.module';
 import { GeneralParametersController } from './general-parameters/general-parameters.controller';
 import { ProjectController } from './projects/projects.controller';
 import { ProjectModule } from './projects/projects.module';
+import { EventController } from './events/events.controller';
+import { EventModule } from './events/events.module';
 import { UserModule } from './user/user.module';
 import { UserController } from './user/user.controller';
 import { ListagemProjetosModule } from './listagem-projetos/listagem-projetos.module';
@@ -21,6 +23,7 @@ import { join } from 'path';
     GeneralParametersModule,
     PrismaModule,
     ProjectModule,
+    EventModule,
     UserModule,
     ListagemProjetosModule,
     FeedHighlightsModule,
@@ -37,6 +40,7 @@ import { join } from 'path';
     GeneralParametersController,
     ProjectController,
     UserController,
+    EventController,
   ],
   providers: [AppService, PrismaService],
 })
