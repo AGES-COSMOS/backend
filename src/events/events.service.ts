@@ -10,11 +10,16 @@ export class EventService {
   constructor(private prisma: PrismaService) {}
 
   async createEvent(createEventsDto: CreateEventDto, imageURL: string) {
+    const { project_id, ...eventData } = createEventsDto;
+  
     return this.prisma.event.create({
-      data: { ...createEventsDto, imageURL },
+      data: {
+        ...eventData,
+        imageURL,
+        ...(project_id && { project_id }),
+      },
     });
   }
-
   async getEvent(id: number) {
     return this.prisma.event.findUnique({ where: { id: id } });
   }

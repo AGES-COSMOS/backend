@@ -1,5 +1,4 @@
 import {
-    IsArray,
     IsBoolean,
     IsDate,
     IsDecimal,
@@ -7,78 +6,103 @@ import {
     IsNotEmpty,
     IsOptional,
     IsString,
-} from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
-import Decimal from 'decimal.js';
-
-
-class EventCategoryDto {
-    category_id: number;
-
-    @IsString()
-    @IsNotEmpty()
-    name: string;
-}
-
-class PostDto {
+  } from 'class-validator';
+  import { ApiProperty } from '@nestjs/swagger';
+  import { Type } from 'class-transformer';
+  
+  export class CreateEventDto {
     id: number;
-
-    @IsString()
-    @IsNotEmpty()
-    content: string;
-}
-
-export class CreateEventDto {
+  
+    @ApiProperty({ description: 'The title of the event' })
     @IsString()
     @IsNotEmpty()
     title: string;
-
+  
+    @ApiProperty({
+      description: 'Optional image URL for the event',
+      required: false,
+    })
     @IsString()
     @IsOptional()
     imageURL?: string;
-
+  
+    @ApiProperty({ description: 'The description of the event' })
     @IsString()
     @IsNotEmpty()
     description: string;
-
+  
+    @ApiProperty({
+      description: 'The date of the event',
+      type: String,
+      format: 'date-time',
+    })
     @IsDate()
     @IsNotEmpty()
+    @Type(() => Date)
     date: Date;
-
+  
+    @ApiProperty({
+      description: 'The time of the event',
+      type: String,
+      format: 'date-time',
+    })
     @IsDate()
     @IsNotEmpty()
+    @Type(() => Date)
     hour: Date;
-
+  
+    @ApiProperty({ description: 'Is the event online?' })
     @IsBoolean()
     @IsNotEmpty()
-    IsOnline: boolean;
-
+    isOnline: boolean;
+  
+    @ApiProperty({ description: 'The address of the event' })
     @IsString()
     @IsNotEmpty()
     address: string;
-
-    @IsDecimal()
+  
+    @ApiProperty({ description: 'Latitude of the event location' })
+    @IsDecimal({ decimal_digits: '9,6' })
     @IsNotEmpty()
-    latitude: Decimal;
-
-    @IsDecimal()
+    @Type(() => Number)
+    latitude: number;
+  
+    @ApiProperty({ description: 'Longitude of the event location' })
+    @IsDecimal({ decimal_digits: '9,6' })
     @IsNotEmpty()
-    longitude: Decimal;
-
+    @Type(() => Number)
+    longitude: number;
+  
+    @ApiProperty({ description: 'The ID of the institution hosting the event' })
     @IsInt()
     @IsNotEmpty()
     @Type(() => Number)
     institution_id: number;
+  
+    @ApiProperty({
+        description: 'The ID of the project associated with the event',
+        required: false,
+      })
+      @IsInt()
+      @IsOptional()
+      @Type(() => Number)
+      project_id?: number;
 
-    @IsOptional()
-    project_id?: number;
 
-    @IsArray()
-    @IsOptional()
-    eventCategories?: EventCategoryDto[];
-
-    @IsArray()
-    @IsOptional()
-    posts?: PostDto[];
-}
+    @ApiProperty({
+      description: 'The date the event was last updated',
+      type: String,
+      format: 'date-time',
+    })
+    @IsDate()
+    @IsNotEmpty()
+    @Type(() => Date)
+    updatedAt: Date;
+  
+    @ApiProperty({
+      description: 'The name of the person who updated the event',
+    })
+    @IsString()
+    @IsNotEmpty()
+    updatedBy: string;
+  }
