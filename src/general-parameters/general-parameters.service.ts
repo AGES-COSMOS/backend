@@ -23,7 +23,11 @@ export class GeneralParametersService {
 
   async findByParameter(parameter: string) {
     return this.prisma.generalParameters.findMany({
-      where: { parameter },
+      where: {
+        parameter: {
+          equals: parameter,
+        },
+      },
     });
   }
 
@@ -31,7 +35,7 @@ export class GeneralParametersService {
     return this.prisma.generalParameters.findMany({
       where: {
         parameter: {
-          in: parameters,
+          array_contains: parameters,
         },
       },
     });
